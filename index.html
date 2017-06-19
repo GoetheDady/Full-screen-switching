@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			*{margin: 0;padding: 0;}
+			html,body{height: 100%;width: 100%;}
+			#container,.sections,.section{height: 100%;width:100%;/*overflow: hidden;*/}
+			#container{overflow: hidden;}
+			.sections{position: relative;top: 0;}
+			#section0{background-image: url(img/001.jpg);background-size: cover;background-position: 50% 50%;text-align: center;color: #fff;}
+			#section1{background-image: url(img/002.jpg);background-size: cover;background-position: 50% 50%;text-align: center;color: #fff;}
+			#section2{background-image: url(img/003.jpg);background-size: cover;background-position: 50% 50%;text-align: center;color: #fff;}
+			#section3{background-image: url(img/004.jpg);background-size: cover;background-position: 50% 50%;text-align: center;color: #fff;}
+			.btn{position: fixed;right: 0;top: 40%;}
+		</style>
+	</head>
+
+	<body>
+		<div id="container">
+			<div class="sections">
+				<div class="section" id="section0">
+					<h3>this is the page</h3>
+				</div>
+				<div class="section" id="section1">
+					<h3>this is the page</h3>
+				</div>
+				<div class="section" id="section2">
+					<h3>this is the page</h3>
+				</div>
+				<div class="section" id="section3">
+					<h3>this is the page</h3>
+				</div>
+			</div>
+		</div>
+		<div class="btn">
+			<ul>
+				<li>
+					<a data-index="0" href="javascript:;">1111111111</a>
+				</li>
+				<li>
+					<a data-index="1" href="javascript:;">2222222222</a>
+				</li>
+				<li>
+					<a data-index="2" href="javascript:;">3333333333</a>
+				</li>
+				<li>
+					<a data-index="3" href="javascript:;">4444444444</a>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			var clientHeight = $(window).height(),
+				oneHeight = 0,
+				index = 0,
+				isNext = true;
+			//判斷瀏覽器并判斷是上滾還是下滾
+			function scrollFunc(e) {
+				e = e || window.event;
+				if(!isNext) return;
+				isNext = false;
+				if(e.wheelDelta) { //IE/Opera/Chrome 
+					e.wheelDelta > 0 ? index-- : index++;
+					viewWindow(index);
+
+				} else if(e.detail) { //Firefox 
+					e.detail > 0 ? index-- : index++;
+					viewWindow(index);
+				}
+			};
+			//動畫主要方法，判斷第幾張然後跳轉
+			function viewWindow(index) {
+				if(index < 0 || index > 3) {
+					(index < 0) && (idx = 0);
+					(index > 3) && (idx = 3);
+					return;
+				};
+				var newHeight = -index * clientHeight + 'px';
+				$('.sections').animate({
+					top: newHeight
+				})
+			}
+			$('ul').on('click', 'a', function() {
+				idx = $(this).data('index');
+				viewWindow(index);
+			})
+			//限制動畫被多次觸發
+			window.setInterval(function() {
+				isNext = true;
+			}, 500)
+			if(document.addEventListener) {
+				document.addEventListener('DOMMouseScroll', scrollFunc, false);
+			} //W3c 
+			window.onmousewheel = document.onmousewheel = scrollFunc; //IE/Opera/Chrome 
+		})
+	</script>
+</html>
